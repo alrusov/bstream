@@ -31,48 +31,48 @@ func TestPutGet(t *testing.T) {
 	}
 
 	for i, v := range data {
-		switch v.(type) {
+		switch v := v.(type) {
 		case bool:
-			s.PutBool(v.(bool))
+			s.PutBool(v)
 		case int64:
-			s.PutInt(v.(int64))
+			s.PutInt(v)
 		case float64:
-			s.PutFloat(v.(float64))
+			s.PutFloat(v)
 		case string:
-			s.PutString(v.(string))
+			s.PutString(v)
 		default:
 			t.Errorf(`[%d] Illegal type "%T"`, i, v)
 		}
 	}
 
 	for i, v := range data {
-		switch v.(type) {
+		switch v := v.(type) {
 		case bool:
 			vv, err := s.GetBool()
 			if err != nil {
 				t.Error(err)
-			} else if vv != v.(bool) {
+			} else if vv != v {
 				t.Errorf("[%d] Got %v, expected %v", i, vv, v)
 			}
 		case int64:
 			vv, err := s.GetInt()
 			if err != nil {
 				t.Error(err)
-			} else if vv != v.(int64) {
+			} else if vv != v {
 				t.Errorf("[%d] Got %v, expected %v", i, vv, v)
 			}
 		case float64:
 			vv, err := s.GetFloat()
 			if err != nil {
 				t.Error(err)
-			} else if vv != v.(float64) {
+			} else if vv != v {
 				t.Errorf("[%d] Got %v, expected %v", i, vv, v)
 			}
 		case string:
 			vv, err := s.GetString()
 			if err != nil {
 				t.Error(err)
-			} else if vv != v.(string) {
+			} else if vv != v {
 				t.Errorf(`[%d] Got "%v", expected "%v"`, i, vv, v)
 			}
 		}

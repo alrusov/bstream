@@ -83,7 +83,6 @@ func (s *Stream) PutBool(v bool) {
 		b = byte(1)
 	}
 	s.buf = append(s.buf, b)
-	return
 }
 
 // GetBool --
@@ -103,7 +102,6 @@ func (s *Stream) GetBool() (bool, error) {
 // PutByte --
 func (s *Stream) PutByte(v byte) {
 	s.buf = append(s.buf, v)
-	return
 }
 
 // GetByte --
@@ -125,7 +123,6 @@ func (s *Stream) PutInt(v int64) {
 	const ln = 8
 	b := *(*[ln]byte)(unsafe.Pointer(&v))
 	s.buf = append(s.buf, b[:ln]...)
-	return
 }
 
 // GetInt --
@@ -147,7 +144,6 @@ func (s *Stream) PutFloat(v float64) {
 	const ln = 8
 	b := *(*[ln]byte)(unsafe.Pointer(&v))
 	s.buf = append(s.buf, b[:ln]...)
-	return
 }
 
 // GetFloat --
@@ -201,8 +197,6 @@ func (s *Stream) PutString(v string) {
 	)
 
 	s.buf = append(s.buf, bb...)
-
-	return
 }
 
 // GetString --
@@ -254,9 +248,9 @@ func (s *Stream) Marshal(types []Type, data [][]interface{}) (err error) {
 			switch types[i] {
 			case Bool:
 				var vv bool
-				switch v.(type) {
+				switch v := v.(type) {
 				case bool:
-					vv = v.(bool)
+					vv = v
 				default:
 					setError(bi, i, v, vv)
 					return
@@ -264,19 +258,19 @@ func (s *Stream) Marshal(types []Type, data [][]interface{}) (err error) {
 				s.PutBool(vv)
 			case Int:
 				var vv int64
-				switch v.(type) {
+				switch v := v.(type) {
 				case int:
-					vv = int64(v.(int))
+					vv = int64(v)
 				case int32:
-					vv = int64(v.(int32))
+					vv = int64(v)
 				case int64:
-					vv = v.(int64)
+					vv = v
 				case uint:
-					vv = int64(v.(uint))
+					vv = int64(v)
 				case uint32:
-					vv = int64(v.(uint32))
+					vv = int64(v)
 				case uint64:
-					vv = int64(v.(uint64))
+					vv = int64(v)
 				default:
 					setError(bi, i, v, vv)
 					return
@@ -284,11 +278,11 @@ func (s *Stream) Marshal(types []Type, data [][]interface{}) (err error) {
 				s.PutInt(vv)
 			case Float:
 				var vv float64
-				switch v.(type) {
+				switch v := v.(type) {
 				case float32:
-					vv = float64(v.(float32))
+					vv = float64(v)
 				case float64:
-					vv = v.(float64)
+					vv = v
 				default:
 					setError(bi, i, v, vv)
 					return
@@ -296,9 +290,9 @@ func (s *Stream) Marshal(types []Type, data [][]interface{}) (err error) {
 				s.PutFloat(vv)
 			case String:
 				var vv string
-				switch v.(type) {
+				switch v := v.(type) {
 				case string:
-					vv = v.(string)
+					vv = v
 				default:
 					setError(bi, i, v, vv)
 					return
