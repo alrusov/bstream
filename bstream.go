@@ -231,10 +231,10 @@ func (s *Stream) GetString() (string, error) {
 //----------------------------------------------------------------------------------------------------------------------------//
 
 // Marshal --
-func (s *Stream) Marshal(types []Type, data [][]interface{}) (err error) {
+func (s *Stream) Marshal(types []Type, data [][]any) (err error) {
 	fn := "Marshal"
 
-	setError := func(bi int, i int, v interface{}, vv interface{}) {
+	setError := func(bi int, i int, v any, vv any) {
 		err = fmt.Errorf(`%s: data[%d][%d]="%v" is %T, expected %T`, fn, bi, i, v, v, vv)
 	}
 
@@ -309,7 +309,7 @@ func (s *Stream) Marshal(types []Type, data [][]interface{}) (err error) {
 //----------------------------------------------------------------------------------------------------------------------------//
 
 // Unmarshal --
-func (s *Stream) Unmarshal(types []Type) (data [][]interface{}, err error) {
+func (s *Stream) Unmarshal(types []Type) (data [][]any, err error) {
 	//fn := "Unmarshal"
 
 	defer func() {
@@ -320,12 +320,12 @@ func (s *Stream) Unmarshal(types []Type) (data [][]interface{}, err error) {
 
 	s.ResetReadPos()
 
-	data = [][]interface{}{}
+	data = [][]any{}
 	blockLen := len(types)
 	ln := s.Len()
 
 	for {
-		block := make([]interface{}, blockLen)
+		block := make([]any, blockLen)
 
 		for i, t := range types {
 			switch t {

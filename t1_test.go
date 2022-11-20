@@ -15,7 +15,7 @@ func Test1(t *testing.T) {
 func TestPutGet(t *testing.T) {
 	s := New(0)
 
-	data := []interface{}{
+	data := []any{
 		false,
 		true,
 		int64(0),
@@ -285,7 +285,7 @@ func BenchmarkUnmarshal(b *testing.B) {
 
 //----------------------------------------------------------------------------------------------------------------------------//
 
-func makeTestData() (types []Type, data [][]interface{}) {
+func makeTestData() (types []Type, data [][]any) {
 	blockCount := 1000
 	types = []Type{
 		Bool,
@@ -298,10 +298,10 @@ func makeTestData() (types []Type, data [][]interface{}) {
 		Float, Float, Float, Float, Float, Float, Float, Float, Float, Float,
 	}
 
-	data = make([][]interface{}, blockCount)
+	data = make([][]any, blockCount)
 
 	for i1 := 0; i1 < blockCount; i1++ {
-		block := []interface{}{
+		block := []any{
 			i1%2 == 0,
 			byte(i1 % 256),
 			int(i1),
